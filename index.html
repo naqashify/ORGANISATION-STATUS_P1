@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Analytics Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body data-color-scheme="dark">
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1 class="dashboard-title">
+                    <span class="neon-text">Organization Analytics</span>
+                    <span class="subtitle">Dashboard</span>
+                </h1>
+                <div class="stats-summary">
+                    <div class="stat-card neon-border">
+                        <div class="stat-number" id="totalOrgs">90</div>
+                        <div class="stat-label">Total Organizations</div>
+                    </div>
+                    <div class="stat-card neon-border">
+                        <div class="stat-number" id="uniqueDomains">27</div>
+                        <div class="stat-label">Unique Domains</div>
+                    </div>
+                    <div class="stat-card neon-border">
+                        <div class="stat-number" id="statesCovered">2</div>
+                        <div class="stat-label">States Covered</div>
+                    </div>
+                    <div class="stat-card neon-border">
+                        <div class="stat-number" id="multiDomainPercentage">53.3%</div>
+                        <div class="stat-label">Multi-Domain Orgs</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Filter Panel -->
+        <section class="filter-panel">
+            <div class="filter-content">
+                <h3 class="filter-title">Filters</h3>
+                <div class="filter-buttons">
+                    <div class="filter-group">
+                        <label class="filter-label">Organization Status:</label>
+                        <div class="button-group">
+                            <button class="neon-btn active" data-filter="status" data-value="all">All</button>
+                            <button class="neon-btn" data-filter="status" data-value="Cold">Cold</button>
+                            <button class="neon-btn" data-filter="status" data-value="Luke Warm">Luke Warm</button>
+                            <button class="neon-btn" data-filter="status" data-value="Warm">Warm</button>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Multiple Domains:</label>
+                        <div class="button-group">
+                            <button class="neon-btn active" data-filter="domain" data-value="all">All</button>
+                            <button class="neon-btn" data-filter="domain" data-value="YES">Yes</button>
+                            <button class="neon-btn" data-filter="domain" data-value="NO">No</button>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Base State:</label>
+                        <div class="button-group">
+                            <button class="neon-btn active" data-filter="state" data-value="all">All</button>
+                            <button class="neon-btn" data-filter="state" data-value="DELHI-NCR">Delhi-NCR</button>
+                            <button class="neon-btn" data-filter="state" data-value="MUMBAI">Mumbai</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <main class="charts-section">
+            <div class="charts-grid">
+                <!-- Organization Status Chart -->
+                <div class="chart-card neon-border">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Organization Status Distribution</h3>
+                    </div>
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Multiple Domain Chart -->
+                <div class="chart-card neon-border">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Multiple Domain Analysis</h3>
+                    </div>
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas id="domainChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Base State Chart -->
+                <div class="chart-card neon-border">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Base State Distribution</h3>
+                    </div>
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas id="stateChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Main Domain Chart -->
+                <div class="chart-card neon-border full-width">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Main Domain Analysis</h3>
+                    </div>
+                    <div class="chart-container" style="position: relative; height: 400px;">
+                        <canvas id="mainDomainChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Data Table Section -->
+        <section class="table-section">
+            <div class="table-card neon-border">
+                <div class="table-header">
+                    <h3 class="table-title">Organization Data</h3>
+                    <div class="table-controls">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search organizations...">
+                        <button class="neon-btn" id="exportBtn">Export Data</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="dataTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-column="orgName">Organization Name</th>
+                                <th class="sortable" data-column="status">Status</th>
+                                <th class="sortable" data-column="multipleDomain">Multiple Domain</th>
+                                <th class="sortable" data-column="baseState">Base State</th>
+                                <th class="sortable" data-column="mainDomain">Main Domain</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-pagination">
+                    <button class="neon-btn" id="prevPage" disabled>Previous</button>
+                    <span id="pageInfo">Page 1 of 1</span>
+                    <button class="neon-btn" id="nextPage" disabled>Next</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
